@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html style="height: 100%">
+   <head>
+       <meta charset="utf-8">
+   </head>
+   <body style="height: 100%; margin: 0">
+       <div id="container" style="height: 100%"></div>
+       <script type="text/javascript" src="echarts.min.js"></script>
+             <script type="text/javascript">
+var dom = document.getElementById("container");
+var myChart = echarts.init(dom);
+var app = {};
+
+ option =null;
+
+function randomData() {
+    now = new Date(+now + oneDay);
+    // value = value + Math.random() * 21 ;
+    return {
+        name: now.toString(),
+        value: [
+            [now.getFullYear(), now.getMonth(), now.getDate()+1].join('/'),
+           
+            Math.round(value)+Math.random() * 30 
+        ]
+    }
+}
+
+function randomData1() {
+    now = new Date(+now + oneDay);
+    // value = value + Math.random() * 11;
+    return {
+        name: now.toString(),
+        value: [
+            [now.getFullYear(), now.getMonth() , now.getDate()+1].join('/'),
+        
+            Math.round(value)+Math.random() * 40  + 100
+        ]
+    }
+}
+
+function randomData2() {
+    now = new Date(+now + oneDay);
+    // value = value + Math.random();
+    return {
+        name: now.toString(),
+        value: [
+            [now.getFullYear(), now.getMonth(), now.getDate()+1].join('/'),
+           
+            Math.round(value)+Math.random() * 100  + 300
+        ]
+    }
+}
+
+var data = [];
+var data1 = [];
+var data2 = [];
+var now = +new Date(2017,1,31);
+
+var oneDay = 24 * 3600 * 1000;
+
+
+var value =  50;
+for (var i = 0; i < 100; i++) {
+    data.push(randomData());
+    data1.push(randomData1());
+    data2.push(randomData2());
+}
+
+option = {
+    title: {
+        text: '应用流量监控',
+        x:'center'
+    },
+    tooltip: {
+        trigger: 'axis',
+        formatter: function (params) {
+            params = params[0];
+            var date = new Date(params.name);
+            return (date.getDate()+1) + '/' + date.getMonth() + '/' + date.getFullYear() + ' : ' + params.value[1];
+            
+        },
+        axisPointer: {
+            animation: false
+        }
+    },
+   legend: {
+       // data:['搴旂敤鍝嶅簲鏃堕棿','娴侀噺','HTTP鍝嶅簲鏃堕棿'],
+        top:'30',
+        x: 'right',
+       
+               data: [
+                   {
+                    name: '应用响应时间',
+                    icon: 'line',
+                 },
+            
+              {
+                name: 'HTTP响应时间',
+                icon: 'line',
+              },
+             
+              {
+                name: '流量',
+                icon: 'line',
+              }
+              
+              ]
+              
+    },
+    
+    
+  
+    xAxis: {
+        type: 'time',
+        splitLine: {
+            show: false
+        }
+    },
+    yAxis: {
+        type: 'value',
+        boundaryGap: [0, '100%'],
+        splitLine: {
+            show: false
+        }
+    },
+     
+   
+    
+    
+    series: [{
+        name: '应用响应时间',
+        type: 'line',
+        showSymbol: false,
+        hoverAnimation: false,
+        data: data,
+        lineStyle:{
+            color:'#00CC00'
+        }
+        
+    },
+    {
+        name: 'HTTP响应时间',
+        type: 'line',
+        showSymbol: false,
+        hoverAnimation: false,
+        data: data1,
+        lineStyle:{
+            color:'#FF0000'
+        }
+    },
+    {
+        name: '流量',
+        type: 'line',
+        showSymbol: false,
+        hoverAnimation: false,
+        data: data2,
+        lineStyle:{
+           
+          color:'blue'
+        }
+    },
+    
+    
+    ]
+};
+
+setInterval(function () {
+
+    for (var i = 0; i < 5; i++) {
+        data.shift();
+        data.push(randomData());
+        data1.shift();
+        data1.push(randomData1());
+        data2.shift();
+        data2.push(randomData2());
+    }
+
+    myChart.setOption({
+        series: [{
+            data: data
+        },
+        {
+            data:data1
+        },
+        {
+            data:data2
+        }]
+    });
+}, 1000);
+
+
+
+
+
+if (option && typeof option === "object") {
+    myChart.setOption(option, true);
+}
+
+       </script>
+   </body>
+</html>
